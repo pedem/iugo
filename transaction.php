@@ -49,6 +49,10 @@ class Transaction
 		);
 	}
 
+	public function save()
+	{
+		
+	}
 }
 
 class TransactionManager

@@ -7,14 +7,13 @@ try {
     $db = new PDO("mysql:host=$servername;dbname=iugo", $username, $password);
     // set the PDO error mode to exception
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully"; 
     }
 catch(PDOException $e)
     {
-    echo "Connection failed: " . $e->getMessage();
+    throw "Connection failed: " . $e->getMessage();
     }
 
-
+/*
 try {
     // First of all, let's begin a transaction
     $db->beginTransaction();
@@ -33,4 +32,5 @@ try {
     // We must rollback the transaction
     $db->rollback();
 }
+/**/
 ?>
