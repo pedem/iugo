@@ -119,8 +119,10 @@ class TransactionManager
 		// In the form:
 		// [{"COUNT(*)":"1","SUM(currencyAmount)":"3"}]
 
+		$result = $results[0];
+
 		$count = (int)$result["COUNT(*)"];
-		$sum = (double)"SUM(currencyAmount)";
+		$sum = (double)$result["SUM(currencyAmount)"];
 
 		// If There's no count, should I throw an error?  I'm going to assume No here, but otherwise, uncomment this block
 		/*
