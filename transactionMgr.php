@@ -106,7 +106,7 @@ class TransactionManager
 	
 	public function recordTransactionFromPost($postData)
 	{
-		$trans = $this->processPOST($postData)
+		$trans = $this->processPOST($postData);
 
 		$verifier = $postData['Verifier'];
 
@@ -119,7 +119,7 @@ class TransactionManager
 
 	public function getStatsFromPost($postData)
 	{
-		$trans = $this->processPOST($postData)
+		$trans = $this->processPOST($postData);
 
 		$data = $trans->getUserStats();
 
