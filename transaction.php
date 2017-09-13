@@ -84,5 +84,5 @@ class TransactionManager
 $postData = json_decode(file_get_contents('php://input'), true);
 
 $transMgr = new TransactionManager();
-$tansMgr->processPOST($postData);
+$transMgr->processPOST($postData);
 ?>
