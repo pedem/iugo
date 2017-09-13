@@ -1,0 +1,3 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteRule ^(.*)$ http://example.com/controller.php?path=$1 [R=301,L]
