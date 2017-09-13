@@ -1,5 +1,5 @@
 <?php
-$path = $_GET['path'];
+$path = strtolower( stripslashes( trim( $_GET['path'] ) ) );
 
-echo "You are looking for $path";
+require("$path.php");
 ?>
