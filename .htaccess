@@ -1,3 +1,7 @@
 Options +FollowSymLinks
 RewriteEngine On
-RewriteRule ^(.*)$ http://example.com/controller.php?path=$1 [R=301,L]
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ /controller.php?path=$1
