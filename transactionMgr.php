@@ -64,7 +64,7 @@ class Transaction
 class TransactionManager
 {
 	private const VERIFY_ERROR		= "Could Not Verify Transaction";
-	private const NO_USER_RESULTS	= "No Results for UserID"
+	private const NO_USER_RESULTS	= "No Results for UserID";
 	/*
 		I've made this function to create a Transaction. 
 		It's simple, but if there becomes anything we wish to do upon making a Transaction, the logic will go here.
