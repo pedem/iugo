@@ -2,7 +2,12 @@
 
 class TimestampManager
 {
-	private $data = array('Timestamp' => time() );
+	private $data;
+
+	public function __construct()
+	{
+		$this->data = array('Timestamp' => time() );
+	}
 
 	public function printJSON()
 	{
