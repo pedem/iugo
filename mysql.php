@@ -9,7 +9,7 @@ class Datastore
 	{
 		try
 		{
-			$db = new PDO("mysql:host=$servername;dbname=iugo", $username, $password);
+			$db = new PDO("mysql:host=".self::SERVERNAME.";dbname=iugo", self::USERNAME, self::PASSWORD);
 			// set the PDO error mode to exception
 			$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
