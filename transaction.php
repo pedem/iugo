@@ -43,9 +43,9 @@ class Transaction
 	public function toArray()
 	{
 		return array(
-			"TransactionId" : $this->transId,
-			"UserId" : $this->userId,
-			"CurrencyAmount" : $this->currencyAmount,
+			"TransactionId" => $this->transId,
+			"UserId" => $this->userId,
+			"CurrencyAmount" => $this->currencyAmount
 		);
 	}
 
