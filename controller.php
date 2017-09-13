@@ -7,8 +7,9 @@ try
 {
 	require("$path.php");
 }
-catch (Exception $e) {
-    $error = array('Error' => true, "ErrorMessage"=> $e->getMessage() );
-    echo json_encode($error);
+catch (Exception $e)
+{
+	$error = array('Error' => true, "ErrorMessage"=> $e->getMessage() );
+	echo json_encode($error);
 }
 ?>

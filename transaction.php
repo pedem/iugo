@@ -1,5 +1,6 @@
 <?php
- 
+require("mysql.php");
+
 class Transaction
 {
 	// Protect the secret constant from prying eyes.
@@ -51,7 +52,11 @@ class Transaction
 
 	public function save()
 	{
-		
+		$ds = new Datastore;
+		$db = $ds->getDB();
+
+		$db->query("Insert into transaction (transId,userId,currencyAmount) VALUES ($this->transId,$this->userId,$this->currencyAmount)");
+		$db->close();
 	}
 }
 
@@ -82,6 +87,10 @@ class TransactionManager
 		$verifier = $postData['Verifier'];
 
 		$this->verifyTransaction($trans, $verifier);
+
+		$trans->save();
+
+		echo json_encode( array("Success"=> true ) );
 	}
 }
  

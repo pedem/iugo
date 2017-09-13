@@ -1,17 +1,26 @@
 <?php
-$servername = "localhost";
-$username = "mpede_iugo";
-$password = "notsecret";
+class Datastore
+{
+	private const SERVERNAME 	= "localhost";
+	private const USERNAME 		= "mpede_iugo";
+	private const PASSWORD 		= "notsecret";
 
-try {
-    $db = new PDO("mysql:host=$servername;dbname=iugo", $username, $password);
-    // set the PDO error mode to exception
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-catch(PDOException $e)
-    {
-    throw "Connection failed: " . $e->getMessage();
-    }
+	public function getDB()
+	{
+		try
+		{
+			$db = new PDO("mysql:host=$servername;dbname=iugo", $username, $password);
+			// set the PDO error mode to exception
+			$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		}
+		catch(PDOException $e)
+		{
+			throw "Connection failed: " . $e->getMessage();
+		}
+
+		return $db;
+	}
+}
 
 /*
 try {
