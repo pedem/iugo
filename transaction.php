@@ -37,7 +37,7 @@ class Transaction
 
 	public function toVerifierStr()
 	{
-		return self::SECRET_KEY . $this->transId . $this->userId .$this->currencyAmount;
+		return sha1(self::SECRET_KEY . $this->transId . $this->userId .$this->currencyAmount);
 	}
 
 	public function toArray()
