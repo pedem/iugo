@@ -37,7 +37,7 @@ class Transaction
 
 	public function toVerifierStr()
 	{
-		return self::SECRET_KEY . ", $this->transId, $this->userId, $this->currencyAmount";
+		return self::SECRET_KEY . $this->transId . $this->userId .$this->currencyAmount;
 	}
 
 	public function toArray()
@@ -71,7 +71,18 @@ class TransactionManager
 			throw new Exception(self::VERIFY_ERROR);
 		}
 	}
+
+	public function processPOST($postData)
+	{
+		$trans = $this->createTransaction($postData['TransactionId'],$postData['UserId'],$postData['CurrencyAmount']);
+		$verifier = $postData['Verifier'];
+
+		$this->verifyTransaction($trans, $verifier);
+	}
 }
  
 $postData = json_decode(file_get_contents('php://input'), true);
+
+$transMgr = new TransactionManager();
+$tansMgr->processPOST($postData);
 ?>
