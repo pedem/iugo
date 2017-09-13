@@ -15,7 +15,7 @@ class Datastore
 		}
 		catch(PDOException $e)
 		{
-			throw "Connection failed: " . $e->getMessage();
+			throw new Exception("Connection failed: " . $e->getMessage());
 		}
 
 		return $db;
