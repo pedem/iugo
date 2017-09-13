@@ -6,9 +6,9 @@ class Transaction
 	// Protect the secret constant from prying eyes.
 	private const SECRET_KEY 		= "NwvprhfBkGuPJnjJp77UPJWJUpgC7mLz";
 
-	private const TRANSID_MISSING 	= "TransactionId Missing";
-	private const USERID_MISSING 	= "UserId Missing";
-	private const CURRENCY_MISSING	= "CurrencyAmount Missing";
+	public const TRANSID_MISSING 	= "TransactionId Missing";
+	public const USERID_MISSING 	= "UserId Missing";
+	public const CURRENCY_MISSING	= "CurrencyAmount Missing";
 
 	// Internal private variables
 	private $transId;
@@ -59,18 +59,6 @@ class Transaction
 		$db->query("Insert into transaction (transId,userId,currencyAmount) VALUES ($this->transId,$this->userId,$this->currencyAmount)");
 	}
 
-	public function getUserStats()
-	{
-		$ds = new Datastore;
-		$db = $ds->getDB();
-
-		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
-		$stmt = $db->query("SELECT COUNT(*), SUM(currencyAmount) FROM transaction WHERE userId=$this->userId");
-
-		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-		echo json_encode($results);
-	}
 }
 
 class TransactionManager
@@ -117,11 +105,29 @@ class TransactionManager
 		$this->success();
 	}
 
+	public function getUserStats($userId)
+	{
+		$ds = new Datastore;
+		$db = $ds->getDB();
+
+		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
+		$stmt = $db->query("SELECT COUNT(*), SUM(currencyAmount) FROM transaction WHERE userId=$userId");
+
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return $results;
+	}
+
 	public function getStatsFromPost($postData)
 	{
-		$trans = $this->processPOST($postData);
+		$userId = $postData["UserId"];
 
-		$data = $trans->getUserStats();
+		if (is_null($userId))
+		{
+			throw new Exception(Transaction::USERID_MISSING);
+		}
+
+		$data = $this->getUserStats($userId);
 
 		echo json_encode( $data );
 	}
