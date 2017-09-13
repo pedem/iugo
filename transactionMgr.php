@@ -63,7 +63,8 @@ class Transaction
 
 class TransactionManager
 {
-	private const VERIFY_ERROR = "Could Not Verify Transaction";
+	private const VERIFY_ERROR		= "Could Not Verify Transaction";
+	private const NO_USER_RESULTS	= "No Results for UserID"
 	/*
 		I've made this function to create a Transaction. 
 		It's simple, but if there becomes anything we wish to do upon making a Transaction, the logic will go here.
@@ -115,7 +116,21 @@ class TransactionManager
 
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		return $results;
+		// In the form:
+		// [{"COUNT(*)":"1","SUM(currencyAmount)":"3"}]
+
+		$count = (int)$result["COUNT(*)"];
+		$sum = (double)"SUM(currencyAmount)";
+
+		// If There's no count, should I throw an error?  I'm going to assume No here, but otherwise, uncomment this block
+		/*
+		if ($count==0)
+		{
+			throw new Exception(self::NO_USER_RESULTS);
+		}
+		/**/
+
+		return array("UserId"=>$userId, "TransactionCount"=>$count, "CurrencySum"=>$sum);
 	}
 
 	public function getStatsFromPost($postData)
