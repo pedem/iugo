@@ -33,8 +33,8 @@ class LeaderBoard
 
 
 		$this->userId = $userId;
-		$this->leaderboardId = leaderboardId;
-		$this->score = score;
+		$this->leaderboardId = $leaderboardId;
+		$this->score = $score;
 	}
 
 	public function toArray()
@@ -123,7 +123,7 @@ class LeaderBoard
 				{
 					$db->beginTransaction();
 					// Bump lower scores down in rank.  This will also update us, but we don't really care, we'll set ours in the next update.  Filtering us out of this query would just take longer than needed.
-					$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score<$this->score AND score>=$currentEntry['Score']");  
+					$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score<$this->score AND score>=$currentEntry[Score]");  
 					$db->query("UPDATE leaderboard SET score=$this->score,rank=$this->rank WHERE leaderboardId=$this->leaderboardId and userId=$this->userId");  // Update ME
 					$db->commit();
 				}
