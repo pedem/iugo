@@ -67,7 +67,7 @@ class Transaction
 class TransactionManager
 {
 	private const VERIFY_ERROR		= "Could Not Verify Transaction";
-	private const VERIFIER_MISSING	= "Verifier Missing or not Numeric." . self::VERIFY_ERROR;
+	private const VERIFIER_MISSING	= "Verifier Missing." . self::VERIFY_ERROR;
 	private const NO_USER_RESULTS	= "No Results for UserID";
 
 	/*
@@ -109,7 +109,7 @@ class TransactionManager
 
 		$verifier = $postData['Verifier'];
 
-		if (is_null($verifier) || !is_int($verifier))
+		if (is_null($verifier))
 		{
 			throw new Exception(self::VERIFIER_MISSING);
 		}
