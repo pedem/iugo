@@ -3,9 +3,9 @@ require("mysql.php");
 
 class LeaderBoard
 {
-	private const LEADER_MISSING 	= "LeaderboardId Missing";
-	private const USERID_MISSING 	= "UserId Missing";
-	private const SCORE_MISSING		= "Score Missing";
+	private const LEADER_MISSING 	= "LeaderboardId Missing or not Numeric";
+	private const USERID_MISSING 	= "UserId Missing or not Numeric";
+	private const SCORE_MISSING		= "Score Missing or not Numeric";
 
 	private $userId;
 	private $leaderboardId;
@@ -16,17 +16,17 @@ class LeaderBoard
 	{
 
 
-		if (is_null($userId))
+		if (is_null($userId) || !is_int($userId))
 		{
 			throw new Exception(self::USERID_MISSING);
 		}
 
-		if (is_null($leaderboardId))
+		if (is_null($leaderboardId) || !is_int($leaderboardId))
 		{
 			throw new Exception(self::LEADER_MISSING);
 		}
 
-		if (is_null($score))
+		if (is_null($score) || !is_int($score))
 		{
 			throw new Exception(self::SCORE_MISSING);
 		}

@@ -6,9 +6,9 @@ class Transaction
 	// Protect the secret constant from prying eyes.
 	private const SECRET_KEY 		= "NwvprhfBkGuPJnjJp77UPJWJUpgC7mLz";
 
-	public const TRANSID_MISSING 	= "TransactionId Missing";
-	public const USERID_MISSING 	= "UserId Missing";
-	public const CURRENCY_MISSING	= "CurrencyAmount Missing";
+	public const TRANSID_MISSING 	= "TransactionId Missing or not Numeric";
+	public const USERID_MISSING 	= "UserId Missing or not Numeric";
+	public const CURRENCY_MISSING	= "CurrencyAmount Missing or not Numeric";
 
 	// Internal private variables
 	private $transId;
@@ -18,15 +18,15 @@ class Transaction
 	// Create a new Transaction, with validation checks.
 	public function __construct($transId, $userId, $currencyAmount)
 	{
-		if (is_null($transId))
+		if (is_null($transId) || !is_int($transId))
 		{
 			throw new Exception(self::TRANSID_MISSING);
 		}
-		if (is_null($userId))
+		if (is_null($userId) || !is_int($userId))
 		{
 			throw new Exception(self::USERID_MISSING);
 		}
-		if (is_null($currencyAmount))
+		if (is_null($currencyAmount) || !is_int($currencyAmount))
 		{
 			throw new Exception(self::CURRENCY_MISSING);
 		}
@@ -67,7 +67,7 @@ class Transaction
 class TransactionManager
 {
 	private const VERIFY_ERROR		= "Could Not Verify Transaction";
-	private const VERIFIER_MISSING	= "Verifier Missing." . self::VERIFY_ERROR;
+	private const VERIFIER_MISSING	= "Verifier Missing or not Numeric." . self::VERIFY_ERROR;
 	private const NO_USER_RESULTS	= "No Results for UserID";
 
 	/*
@@ -109,7 +109,7 @@ class TransactionManager
 
 		$verifier = $postData['Verifier'];
 
-		if (is_null($verifier))
+		if (is_null($verifier) || !is_int($verifier))
 		{
 			throw new Exception(self::VERIFIER_MISSING);
 		}
@@ -124,7 +124,7 @@ class TransactionManager
 	// Returns an array of Stats for a given UserId.  If the UserId is not valid, I assume they want the stats to be 0.
 	public function getUserStats($userId)
 	{
-		if (is_null($userId))
+		if (is_null($userId) || !is_int($userId))
 		{
 			throw new Exception(Transaction::USERID_MISSING);
 		}
@@ -163,7 +163,7 @@ class TransactionManager
 	{
 		$userId = $postData["UserId"];
 
-		if (is_null($userId))
+		if (is_null($userId) || !is_int($userId))
 		{
 			throw new Exception(Transaction::USERID_MISSING);
 		}
