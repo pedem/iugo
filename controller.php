@@ -16,7 +16,7 @@ class Controller
 	private const INVALID_PATH = "Invalid URL, Please consult Server Specification Ducument.";
 
 	private $allowed;
-	private $path
+	private $path;
 
 	public function __construct($path)
 	{
