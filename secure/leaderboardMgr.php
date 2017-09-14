@@ -71,7 +71,7 @@ class LeaderBoard
 		// CASE 1
 		if (count($results)==0)
 		{
-			$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score>$this->score");
+			$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score<$this->score");
 			$myRankResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 			$newRank = (int)$myRankResults['cnt'];
@@ -91,7 +91,7 @@ class LeaderBoard
 			}
 			else
 			{
-				$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score<$this->score");  // Bump lower scores down in rank.
+				$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score>$this->score");  // Bump lower scores down in rank.
 				$db->query("INSERT into leaderboard (leaderboardId,userId,score,rank) VALUES ($this->leaderboardId,$this->userId,$this->score, $this->rank)");  // Insert ME
 			}
 
@@ -116,7 +116,7 @@ class LeaderBoard
 				$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score<$this->score");
 				$myRankResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-				$this->rank = (int)$myRankResults['cnt'];
+				$this->rank = (int)$myRankResults['cnt'] + 1;
 
 				if ($currentRank==$this->rank)
 				{
