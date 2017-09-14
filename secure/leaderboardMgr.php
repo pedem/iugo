@@ -74,26 +74,14 @@ class LeaderBoard
 			$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score<$this->score");
 			$myRankResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			$newRank = (int)$myRankResults['cnt'];
+			$this->rank = ((int)$myRankResults[0]['cnt']) + 1;  // Only one row.
 
 			// We are adding ourselves.
 
 			$db->beginTransaction();
-			$this->rank = $newRank;
 
-			if ($this->rank==0)
-			{
-				$this->rank = 1;  // No Equal!  We're Number 1!
-
-				// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
-				$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId");  // Bump everyone else down.
-				$db->query("INSERT into leaderboard (leaderboardId,userId,score,rank) VALUES ($this->leaderboardId,$this->userId,$this->score, 1)");  // Insert ME
-			}
-			else
-			{
-				$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score>$this->score");  // Bump lower scores down in rank.
-				$db->query("INSERT into leaderboard (leaderboardId,userId,score,rank) VALUES ($this->leaderboardId,$this->userId,$this->score, $this->rank)");  // Insert ME
-			}
+			$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score>$this->score");  // Bump lower scores down in rank.
+			$db->query("INSERT into leaderboard (leaderboardId,userId,score,rank) VALUES ($this->leaderboardId,$this->userId,$this->score, $this->rank)");  // Insert ME
 
 			$db->commit();
 		}
