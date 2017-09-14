@@ -88,7 +88,7 @@ class UserData
 	// Recursively update the underlying data object with information in $data, which is an Object
 	public function updateData($db, $data)
 	{
-		$this->data = json_encode( array_merge_recursive( json_decode($this->data), $data) );
+		$this->data = json_encode( array_merge_recursive( (array) json_decode($this->data), (array) $data) );
 
 		$this->update($db);
 	}
