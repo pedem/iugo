@@ -46,7 +46,7 @@ class UserData
 		$db->query("INSERT into userdata (userId,data) VALUES ($this->userId,$this->data)");
 	}
 
-	public static function load($userId)
+	public static function load($db, $userId)
 	{
 		if (is_null($userId) || !is_int($userId))
 		{
@@ -106,8 +106,10 @@ class UserDataManager
 			$this->success();
 			return;
 		}
+		$ds = new Datastore;
+		$db = $ds->getDB();
 
-		$userData = UserData::load($postData['UserId']);
+		$userData = UserData::load($db, $postData['UserId']);
 		if (is_null($userData))
 		{
 			$userData = new UserData($postData['UserId'], $postData['Data']);
