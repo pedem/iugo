@@ -59,7 +59,7 @@ class Transaction
 		$db = $ds->getDB();
 
 		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
-		$db->query("Insert into transaction (transId,userId,currencyAmount) VALUES ($this->transId,$this->userId,$this->currencyAmount)");
+		$db->query("INSERT into transaction (transId,userId,currencyAmount) VALUES ($this->transId,$this->userId,$this->currencyAmount)");
 	}
 
 }
@@ -128,7 +128,7 @@ class TransactionManager
 		{
 			throw new Exception(Transaction::USERID_MISSING);
 		}
-		
+
 		$ds = new Datastore;
 		$db = $ds->getDB();
 
