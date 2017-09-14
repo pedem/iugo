@@ -39,12 +39,42 @@ class LeaderBoard
 
 	public function toArray()
 	{
+		// I'm Assuming that order matters to the client.
 		return array(
 			'UserId' => $this->userId,
 			'LeaderboardId' => $this->leaderboardId,
 			'Score' => $this->score,
 			'Rank' => $this->rank
 		);
+	}
+
+	public static function load($userId, $leaderboardId)
+	{
+		if (is_null($userId) || !is_int($userId))
+		{
+			throw new Exception(self::USERID_MISSING);
+		}
+
+		if (is_null($leaderboardId) || !is_int($leaderboardId))
+		{
+			throw new Exception(self::LEADER_MISSING);
+		}
+
+		$stmt = $db->query("SELECT score, rank FROM leaderboard WHERE leaderboardId=$leaderboardId AND userId=$userId");
+
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		if (count($results)!=1)
+		{
+			return null;
+		}
+
+		$row = $results[0];
+
+		$retVal = new LeaderBoard($userId, $leaderboardId, (int)$row['score']);
+		$retVal->rank = (int)$row['rank'];
+
+		return $retVal;
 	}
 
 	public function save()
@@ -137,6 +167,8 @@ class LeaderBoard
 
 class LeaderBoardManager
 {
+	private const OFFSET_MISSING 	= "Offset Missing or not Numeric";
+	private const LIMIT_MISSING 	= "Limit Missing or not Numeric";
 	/*
 		I've made this function to create a LeaderBoard. 
 		It's simple, but if there becomes anything we wish to do upon making a LeaderBoard, the logic will go here.
@@ -156,8 +188,33 @@ class LeaderBoardManager
 
 	public function getRankingsFromPost($postData)
 	{
-		$leaderEntry = $this->createLeaderBoard($postData['LeaderboardId'],$postData['UserId'],$postData['Score']);
-		$leaderEntry->save();
+		$offset = $postData['Offset'];
+		$limit = $postData['Limit'];
+
+		if (is_null($offset) || !is_int($offset))
+		{
+			throw new Exception(self::OFFSET_MISSING);
+		}
+
+		if (is_null($limit) || !is_int($limit))
+		{
+			throw new Exception(self::LIMIT_MISSING);
+		}
+
+		$leaderEntry = LeaderBoard::load($postData['UserId'],$postData['LeaderboardId']);
+
+		$ds = new Datastore;
+		$db = $ds->getDB();
+
+		$stmt = $db->query("SELECT userId as UserId, score as Score, rank as Rank FROM leaderboard WHERE leaderboardId=$this->leaderboardId LIMIT $limit OFFSET $offset");
+
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$entryArr = $leaderEntry->toArray()
+
+		$entryArr["Entries"] = $results;
+
+		echo json_encode( $entryArr );
 	}
 
 }
