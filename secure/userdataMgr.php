@@ -36,14 +36,18 @@ class UserData
 		);
 	}
 
-	// Save this Transaction.
-	public function save()
+	// Save this UserData.
+	public function save($db)
 	{
-		$ds = new Datastore;
-		$db = $ds->getDB();
-
 		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
-		$db->query("INSERT into userdata (userId,data) VALUES ($this->userId,$this->data)");
+		$db->query("INSERT into userdata (userId,data) VALUES ($this->userId,\"$this->data)\"");
+	}
+
+	// Update this UserData
+	public function update($db)
+	{
+		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
+		$db->query("UPDATE userdata SET data=\"$this->data)\" where userId=$this->userId");
 	}
 
 	public static function load($db, $userId)
@@ -64,14 +68,14 @@ class UserData
 
 		$row = $results[0];
 
-		return new LeaderBoard($userId, $leaderboardId, (int)$row['data']);
+		return new UserData($userId, $row['data']);
 	}
 
-	public function updateData($data)
+	public function updateData($db, $data)
 	{
 		$this->data = array_merge_recursive($this->data, $data);
 
-		$this->save();
+		$this->update($db);
 	}
 
 }
@@ -113,11 +117,11 @@ class UserDataManager
 		if (is_null($userData))
 		{
 			$userData = new UserData($postData['UserId'], $postData['Data']);
-			$userData->save();
+			$userData->save($db);
 		}
 		else
 		{
-			$userData->updateData($postData['Data']);
+			$userData->updateData($db, $postData['Data']);
 		}
 
 		$this->success();
