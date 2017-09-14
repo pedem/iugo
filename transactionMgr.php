@@ -67,6 +67,7 @@ class Transaction
 class TransactionManager
 {
 	private const VERIFY_ERROR		= "Could Not Verify Transaction";
+	private const VERIFIER_MISSING	= "Verifier Missing." . self::VERIFY_ERROR;
 	private const NO_USER_RESULTS	= "No Results for UserID";
 
 	/*
@@ -108,6 +109,11 @@ class TransactionManager
 
 		$verifier = $postData['Verifier'];
 
+		if (is_null($verifier))
+		{
+			throw new Exception(self::VERIFIER_MISSING);
+		}
+
 		$this->verifyTransaction($trans, $verifier);
 
 		$trans->save();
@@ -122,7 +128,7 @@ class TransactionManager
 		$db = $ds->getDB();
 
 		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
-		$stmt = $db->query("SELECT COUNT(*), SUM(currencyAmount) FROM transaction WHERE userId=$userId");
+		$stmt = $db->query("SELECT COUNT(*) as cnt, SUM(currencyAmount) as all_sum FROM transaction WHERE userId=$userId");
 
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -131,8 +137,8 @@ class TransactionManager
 
 		$result = $results[0];
 
-		$count = (int)$result["COUNT(*)"];
-		$sum = (double)$result["SUM(currencyAmount)"];
+		$count = (int)$result["cnt"];
+		$sum = (double)$result["all_sum"];
 
 		// If There's no count, should I throw an error?  I'm going to assume No here, but otherwise, uncomment this block
 		/*
