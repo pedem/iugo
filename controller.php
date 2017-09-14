@@ -17,8 +17,6 @@ class Controller
 	// Private Constants
 	private const SECURE_PATH = "secure";
 
-
-	private $allowed;
 	private $path;
 
 	public function __construct($path)
@@ -28,12 +26,13 @@ class Controller
 
 	public function isAllowed()
 	{
+		global $allowed;
 		return $allowed[$this->path];
 	}
 
 	public function run()
 	{
-		require(self::SECURE_PATH . "/$path.php");
+		require(self::SECURE_PATH . "/$this->path.php");
 	}
 }
 
