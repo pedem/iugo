@@ -23,7 +23,7 @@ class UserData
 		}
 		// Set the internal values
 		$this->userId = $userId;
-		$this->currencyAmount = $currencyAmount;
+		$this->data = $data;
 	}
 
 
@@ -71,9 +71,10 @@ class UserData
 		return new UserData($userId, $row['data']);
 	}
 
+	// Recursively update the underlying data object with information in $data, which is an Object
 	public function updateData($db, $data)
 	{
-		$this->data = array_merge_recursive($this->data, $data);
+		$this->data = json_encode( array_merge_recursive( json_decode($this->data), $data) );
 
 		$this->update($db);
 	}
@@ -113,12 +114,12 @@ class UserDataManager
 		$userData = UserData::load($db, $postData['UserId']);
 		if (is_null($userData))
 		{
-			$userData = new UserData($postData['UserId'], $postData['Data']);
+			$userData = new UserData($postData['UserId'], json_encode($postData['Data']) );
 			$userData->save($db);
 		}
 		else
 		{
-			$userData->updateData($db, json_decode($postData['Data']) );
+			$userData->updateData($db, $postData['Data'] );
 		}
 
 		$this->success();
