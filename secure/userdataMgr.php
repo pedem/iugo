@@ -95,7 +95,7 @@ class UserData
 		}
 
 		foreach ($obj2 as $key => $value) {
-			if ($key in $obj1)
+			if (isset($obj1[$key]) )
 				$obj1[$key] = object_merge_recursive($obj1[$key],$obj2[$key]);
 			else
 				$obj1[$key] = $obj2[$key];
