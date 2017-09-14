@@ -4,6 +4,8 @@ header('Content-type: text/javascript');
 
 // The allowed paths to modules in the secure folder
 $allowed = array(
+	"userload" => true,
+	"usersave" => true,
 	"scorepost" => true,
 	"leaderboardget" => true,
 	"transactionstats" => true,
