@@ -85,10 +85,29 @@ class UserData
 		return new UserData($userId, $row['data']);
 	}
 
+	// Merges destructvely to obj1
+	private function object_merge_recursive($obj1, $obj2)
+	{
+		// I tried array_merge_recursive, but it would make arrays when it was supposed to overwrite values.
+		if (!is_object($obj1) && !is_array($obj1) )
+		{
+			return $obj2;
+		}
+
+		foreach ($obj2 as $key => $value) {
+			if ($key in $obj1)
+				$obj1[$key] = object_merge_recursive($obj1[$key],$obj2[$key]);
+			else
+				$obj1[$key] = $obj2[$key];
+		}
+
+		return $obj1;
+	}
+
 	// Recursively update the underlying data object with information in $data, which is an Object
 	public function updateData($db, $data)
 	{
-		$this->data = json_encode( array_merge_recursive( (array) json_decode($this->data), (array) $data) );
+		$this->data = json_encode( $this->object_merge_recursive( json_decode($this->data), $data) );
 
 		$this->update($db);
 	}
@@ -128,7 +147,7 @@ class UserDataManager
 		$userData = UserData::load($db, $postData['UserId']);
 		if (is_null($userData))
 		{
-			$userData = new UserData($postData['UserId'], json_encode($postData['Data']) );
+			$userData = new UserData($postData['UserId'], json_encode( $postData['Data']) );
 			$userData->save($db);
 		}
 		else
