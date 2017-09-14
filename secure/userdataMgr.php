@@ -36,18 +36,32 @@ class UserData
 		);
 	}
 
+	private function mysql_escape($inp) { 
+		if(is_array($inp)) 
+		{
+			return array_map(__METHOD__, $inp); 
+		}
+
+		if(!empty($inp) && is_string($inp))
+		{ 
+			return str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $inp); 
+		} 
+
+		return $inp; 
+	} 
+
 	// Save this UserData.
 	public function save($db)
 	{
 		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
-		$db->query("INSERT into userdata (userId,data) VALUES ($this->userId,\"$this->data)\"");
+		$db->query("INSERT into userdata (userId,data) VALUES ($this->userId,\"".$this->mysql_escape($this->data)."\")");
 	}
 
 	// Update this UserData
 	public function update($db)
 	{
 		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
-		$db->query("UPDATE userdata SET data=\"$this->data)\" where userId=$this->userId");
+		$db->query("UPDATE userdata SET data=\"".$this->mysql_escape($this->data)."\" where userId=$this->userId");
 	}
 
 	public static function load($db, $userId)
