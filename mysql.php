@@ -5,6 +5,7 @@ class Datastore
 	private const USERNAME 		= "mpede_iugo";
 	private const PASSWORD 		= "notsecret";
 
+	// Get the database PDO Object.
 	public function getDB()
 	{
 		try
