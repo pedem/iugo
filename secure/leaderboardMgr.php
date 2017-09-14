@@ -40,8 +40,8 @@ class LeaderBoard
 	public function toArray()
 	{
 		return array(
-			'LeaderboardId' => $this->leaderboardId,
 			'UserId' => $this->userId,
+			'LeaderboardId' => $this->leaderboardId,
 			'Score' => $this->score,
 			'Rank' => $this->rank
 		);
