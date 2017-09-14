@@ -105,7 +105,7 @@ class LeaderBoard
 			$currentRank = (int)$currentEntry['Rank'];
 
 			// CASE 2
-			if ($currentScore>=$this->score)
+			if ($currentScore<=$this->score)
 			{
 				$this->score = $currentScore;
 				$this->rank = $currentRank;
