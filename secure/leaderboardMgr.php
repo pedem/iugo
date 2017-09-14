@@ -113,7 +113,7 @@ class LeaderBoard
 			else
 			{
 				// CASE 3
-				$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score>$this->score");
+				$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score<$this->score");
 				$myRankResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 				$this->rank = (int)$myRankResults['cnt'];
@@ -127,7 +127,7 @@ class LeaderBoard
 				{
 					$db->beginTransaction();
 					// Bump lower scores down in rank.  This will also update us, but we don't really care, we'll set ours in the next update.  Filtering us out of this query would just take longer than needed.
-					$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score<$this->score AND score>=$currentScore");  
+					$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score>$this->score AND score<=$currentScore");  
 					$db->query("UPDATE leaderboard SET score=$this->score,rank=$this->rank WHERE leaderboardId=$this->leaderboardId and userId=$this->userId");  // Update ME
 					$db->commit();
 				}
