@@ -210,7 +210,7 @@ class LeaderBoardManager
 
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		$entryArr = $leaderEntry->toArray()
+		$entryArr = $leaderEntry->toArray();
 
 		$entryArr["Entries"] = $results;
 
