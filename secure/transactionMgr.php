@@ -124,6 +124,11 @@ class TransactionManager
 	// Returns an array of Stats for a given UserId.  If the UserId is not valid, I assume they want the stats to be 0.
 	public function getUserStats($userId)
 	{
+		if (is_null($userId))
+		{
+			throw new Exception(Transaction::USERID_MISSING);
+		}
+		
 		$ds = new Datastore;
 		$db = $ds->getDB();
 
