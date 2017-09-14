@@ -92,13 +92,13 @@ class LeaderBoardManager
 	public function insertLeaderEntryFromPost($postData)
 	{
 		$leaderEntry = $this->createLeaderBoard($postData['LeaderboardId'],$postData['UserId'],$postData['Score']);
-		$leaderEntry->save()
+		$leaderEntry->save();
 	}
 
 	public function getRankingsFromPost($postData)
 	{
 		$leaderEntry = $this->createLeaderBoard($postData['LeaderboardId'],$postData['UserId'],$postData['Score']);
-		$leaderEntry->save()
+		$leaderEntry->save();
 	}
 
 }
