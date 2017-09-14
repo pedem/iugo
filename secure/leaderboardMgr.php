@@ -48,7 +48,7 @@ class LeaderBoard
 		);
 	}
 
-	public static function load($userId, $leaderboardId)
+	public static function load($db, $userId, $leaderboardId)
 	{
 		if (is_null($userId) || !is_int($userId))
 		{
@@ -201,10 +201,10 @@ class LeaderBoardManager
 			throw new Exception(self::LIMIT_MISSING);
 		}
 
-		$leaderEntry = LeaderBoard::load($postData['UserId'],$postData['LeaderboardId']);
-
 		$ds = new Datastore;
 		$db = $ds->getDB();
+
+		$leaderEntry = LeaderBoard::load($db, $postData['UserId'],$postData['LeaderboardId']);
 
 		$stmt = $db->query("SELECT userId as UserId, score as Score, rank as Rank FROM leaderboard WHERE leaderboardId=$this->leaderboardId LIMIT $limit OFFSET $offset");
 
