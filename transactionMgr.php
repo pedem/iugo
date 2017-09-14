@@ -15,7 +15,7 @@ class Transaction
 	private $userId;
 	private $currencyAmount;
 
-	// Create a new Transactio, with validation check.
+	// Create a new Transaction, with validation checks.
 	public function __construct($transId, $userId, $currencyAmount)
 	{
 		if (is_null($transId))
@@ -36,11 +36,13 @@ class Transaction
 		$this->currencyAmount = $currencyAmount;
 	}
 
+	// Create a SHA1 Hashed string that represents this transaction.
 	public function toVerifierStr()
 	{
 		return sha1(self::SECRET_KEY . $this->transId . $this->userId .$this->currencyAmount);
 	}
 
+	// Create an Array representation of this Transaction.
 	public function toArray()
 	{
 		return array(
@@ -50,6 +52,7 @@ class Transaction
 		);
 	}
 
+	// Save this Transaction.
 	public function save()
 	{
 		$ds = new Datastore;
@@ -65,6 +68,7 @@ class TransactionManager
 {
 	private const VERIFY_ERROR		= "Could Not Verify Transaction";
 	private const NO_USER_RESULTS	= "No Results for UserID";
+
 	/*
 		I've made this function to create a Transaction. 
 		It's simple, but if there becomes anything we wish to do upon making a Transaction, the logic will go here.
@@ -75,6 +79,7 @@ class TransactionManager
 		return $trans;
 	}
 
+	// Function to verify a transaction against a verification string.
 	public function verifyTransaction($trans, $verifyStr)
 	{
 		if ($trans->toVerifierStr()!=$verifyStr)
@@ -83,19 +88,23 @@ class TransactionManager
 		}
 	}
 
-	public function processPOST($postData)
+	// Converts POST data to a transaction
+	public function processPOSTtoTrans($postData)
 	{
 		return $this->createTransaction($postData['TransactionId'],$postData['UserId'],$postData['CurrencyAmount']);
 	}
 
+	// Displays Success to the user
 	public function success()
 	{
 		echo json_encode( array("Success"=> true ) );
 	}
 	
+	// Records a transaction from POST data.
+	// Essentially #3 entry point for Class
 	public function recordTransactionFromPost($postData)
 	{
-		$trans = $this->processPOST($postData);
+		$trans = $this->processPOSTtoTrans($postData);
 
 		$verifier = $postData['Verifier'];
 
@@ -106,6 +115,7 @@ class TransactionManager
 		$this->success();
 	}
 
+	// Returns an array of Stats for a given UserId.  If the UserId is not valid, I assume they want the stats to be 0.
 	public function getUserStats($userId)
 	{
 		$ds = new Datastore;
@@ -135,6 +145,9 @@ class TransactionManager
 		return array("UserId"=>$userId, "TransactionCount"=>$count, "CurrencySum"=>$sum);
 	}
 
+
+	// Display Stats for a User identified in the POST data.
+	// Essentially #4 entry point for Class
 	public function getStatsFromPost($postData)
 	{
 		$userId = $postData["UserId"];
