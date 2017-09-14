@@ -19,7 +19,7 @@ class UserData
 		}
 		if (is_null($data))
 		{
-			throw new Exception(self::CURRENCY_MISSING);
+			throw new Exception(self::DATA_MISSING);
 		}
 		// Set the internal values
 		$this->userId = $userId;
@@ -82,9 +82,6 @@ class UserData
 
 class UserDataManager
 {
-	private const VERIFY_ERROR		= "Could Not Verify Transaction";
-	private const VERIFIER_MISSING	= "Verifier Missing." . self::VERIFY_ERROR;
-	private const NO_USER_RESULTS	= "No Results for UserID";
 
 	/*
 		I've made this function to create a Transaction. 
@@ -121,7 +118,7 @@ class UserDataManager
 		}
 		else
 		{
-			$userData->updateData($db, $postData['Data']);
+			$userData->updateData($db, json_decode($postData['Data']) );
 		}
 
 		$this->success();
