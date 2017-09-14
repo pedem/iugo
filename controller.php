@@ -11,9 +11,12 @@ $allowed = array(
 
 class Controller
 {
-	// Privvate Constants
+	// Public Constants
+	public const INVALID_PATH = "Invalid URL, Please consult Server Specification Ducument.";
+
+	// Private Constants
 	private const SECURE_PATH = "secure";
-	private const INVALID_PATH = "Invalid URL, Please consult Server Specification Ducument.";
+
 
 	private $allowed;
 	private $path;
