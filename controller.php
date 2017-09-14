@@ -13,7 +13,7 @@ try
 	if ($allowed[$path])
 		require("$path.php");
 	else
-		throw new Exception("Invalid URL, Please consult Server Specification Ducument")
+		throw new Exception("Invalid URL, Please consult Server Specification Ducument");
 }
 catch (Exception $e)
 {
