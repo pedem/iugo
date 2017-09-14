@@ -74,7 +74,7 @@ class LeaderBoard
 			$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score>$this->score");
 			$myRankResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			$newRank = $myRankResults['cnt'];
+			$newRank = (int)$myRankResults['cnt'];
 
 			// We are adding ourselves.
 
@@ -99,22 +99,26 @@ class LeaderBoard
 		}
 		else
 		{
-			$currentEntry = $results[0];  // Only one possible, due to DB constraints.
+			$currentEntry = $results[0];  // Only one possible, due to DB constraints.  Count that as an assumption, I guess.
+
+			$currentScore = (int)$currentEntry['Score'];
+			$currentRank = (int)$currentEntry['Rank'];
 
 			// CASE 2
 			if ($currentEntry['Score']>=$this->score)
 			{
-				$this->score = $currentEntry['Score'];
-				$this->rank = $currentEntry['Rank'];
+				$this->score = $currentScore;
+				$this->rank = $currentRank;
 			}
 			else
 			{
+				// CASE 3
 				$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score>$this->score");
 				$myRankResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-				$this->rank = $myRankResults['cnt'];
+				$this->rank = (int)$myRankResults['cnt'];
 
-				if ($currentEntry['Rank']==$this->rank)
+				if ($currentRank==$this->rank)
 				{
 					// We're improved, but our ranking is the same.  Only need to update our score.
 					$db->query("UPDATE leaderboard SET score=$this->score WHERE leaderboardId=$this->leaderboardId and userId=$this->userId");
@@ -123,7 +127,7 @@ class LeaderBoard
 				{
 					$db->beginTransaction();
 					// Bump lower scores down in rank.  This will also update us, but we don't really care, we'll set ours in the next update.  Filtering us out of this query would just take longer than needed.
-					$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score<$this->score AND score>=$currentEntry[Score]");  
+					$db->query("UPDATE leaderboard SET rank=rank+1 WHERE leaderboardId=$this->leaderboardId AND score<$this->score AND score>=$currentScore");  
 					$db->query("UPDATE leaderboard SET score=$this->score,rank=$this->rank WHERE leaderboardId=$this->leaderboardId and userId=$this->userId");  // Update ME
 					$db->commit();
 				}
