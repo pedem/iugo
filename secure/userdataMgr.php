@@ -70,7 +70,7 @@ class UserData
 	public function updateData($data)
 	{
 		$this->data = array_merge_recursive($this->data, $data);
-		
+
 		$this->save();
 	}
 
@@ -92,10 +92,16 @@ class UserDataManager
 		return $trans;
 	}
 
+	// Displays Success to the user
+	public function success()
+	{
+		echo json_encode( array("Success"=> true ) );
+	}
+
 	// Converts POST data to a transaction
 	public function saveFromPost($postData)
 	{
-		if (is_null($postData['Data'])
+		if (is_null($postData['Data']))
 		{
 			$this->success();
 			return;
@@ -114,13 +120,6 @@ class UserDataManager
 
 		$this->success();
 	}
-
-	// Displays Success to the user
-	public function success()
-	{
-		echo json_encode( array("Success"=> true ) );
-	}
-	
 
 }
 
