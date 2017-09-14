@@ -116,7 +116,7 @@ class LeaderBoard
 				$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score<$this->score");
 				$myRankResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-				$this->rank = (int)$myRankResults['cnt'] + 1;
+				$this->rank = ((int)$myRankResults[0]['cnt']) + 1;  // Only one row.
 
 				if ($currentRank==$this->rank)
 				{
