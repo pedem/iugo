@@ -1,0 +1,6 @@
+I Assume you're just going to plunk all this into a public_html or something with excessively broad permissions.
+In this case, I use the .htaccess file to just deny access to everything in it.
+
+You may only access these files through the controller.php, and then only the ones that are allowed access points.
+
+Really, these should not be in any publically accessible folder.  The PHP includes should go to some path outside of Apache's reach with strict permissions set.
