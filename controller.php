@@ -11,7 +11,7 @@ $path = strtolower( stripslashes( trim( $_GET['path'] ) ) );
 try
 {
 	if ($allowed[$path])
-		require("$path.php");
+		require("secure/$path.php");
 	else
 		throw new Exception("Invalid URL, Please consult Server Specification Ducument.");
 }
