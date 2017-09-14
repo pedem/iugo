@@ -163,6 +163,25 @@ class LeaderBoard
 		return;
 
 	}
+
+	// Accessors, depite the fact we only need one.
+
+	public function getLeaderboardId()
+	{
+		return $this->leaderboardId;
+	}
+	public function getUserId()
+	{
+		return $this->userId;
+	}
+	public function getScore()
+	{
+		return $this->score;
+	}
+	public function getRank()
+	{
+		return $this->rank;
+	}
 }
 
 class LeaderBoardManager
@@ -206,7 +225,7 @@ class LeaderBoardManager
 
 		$leaderEntry = LeaderBoard::load($db, $postData['UserId'],$postData['LeaderboardId']);
 
-		$stmt = $db->query("SELECT userId as UserId, score as Score, rank as Rank FROM leaderboard WHERE leaderboardId=$this->leaderboardId LIMIT $limit OFFSET $offset");
+		$stmt = $db->query("SELECT userId as UserId, score as Score, rank as Rank FROM leaderboard WHERE leaderboardId=$leaderEntry->getLeaderboardId() ORDER BY score ASC LIMIT $limit OFFSET $offset");
 
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
