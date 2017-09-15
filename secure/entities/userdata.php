@@ -9,7 +9,12 @@ class UserData
 	private $userId;
 	private $data;
 
-	// Create a new UserData, with validation checks.
+	/*
+	Create a new UserData, with validation checks.
+	There are two manditory fields for this constructor
+	$userId:			Integer - The User's ID
+	$data:				String  - The Serialized JSON Data you want to save
+	*/
 	public function __construct($userId, $data)
 	{
 		// Set the internal values
@@ -19,6 +24,7 @@ class UserData
 
 
 	// Create an Array representation of this UserData.
+	// This would go away if this became Verifiable.
 	public function toArray()
 	{
 		return array(
@@ -27,6 +33,7 @@ class UserData
 		);
 	}
 
+	// This function will escape the JSON string so it inserts properly.
 	private function mysql_escape($inp) { 
 		if(is_array($inp)) 
 		{
@@ -41,20 +48,35 @@ class UserData
 		return $inp; 
 	} 
 
-	// Save this UserData.
+	/*
+	Save this UserData.
+	There is one manditory field for this function
+	$db:		OBJECT(PDO) - The Database Object
+	*/
 	public function save($db)
 	{
 		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
 		$db->query("INSERT into userdata (userId,data) VALUES ($this->userId,\"".$this->mysql_escape($this->data)."\")");
 	}
 
-	// Update this UserData
+	/*
+	Update this UserData.
+	There is one manditory field for this function
+	$db:		OBJECT(PDO) - The Database Object
+	*/
 	public function update($db)
 	{
 		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.
 		$db->query("UPDATE userdata SET data=\"".$this->mysql_escape($this->data)."\" where userId=$this->userId");
 	}
 
+	/*
+	Loads a UserData Object given a Database object and a UserId
+
+	There are two manditory fields for this function
+	$db:		OBJECT(PDO) - The Database Object
+	$userId:	Integer - The User's ID
+	*/
 	public static function load($db, $userId)
 	{
 		if (is_null($userId) || !is_int($userId))
@@ -76,7 +98,14 @@ class UserData
 		return new UserData($userId, $row['data']);
 	}
 
-	// Merges destructvely to obj1
+	/*
+	Recursively merge $obj1 and $obj2 into the returned Object
+	Merges destructvely to obj1
+
+	There are two manditory fields for this function
+	$obj1:		Object - The Original to Merge into
+	$obj2:		Object - The Object ot add to Obj1.  Authoritative
+	*/
 	private function object_merge_recursive($obj1, $obj2)
 	{
 		// I tried array_merge_recursive, but it would make arrays when it was supposed to overwrite values.
@@ -102,7 +131,12 @@ class UserData
 		return $obj1;
 	}
 
-	// Recursively update the underlying data object with information in $data, which is an Object
+	/*
+	Recursively update the underlying data object with information in $data, which is an Object
+	There are two manditory fields for this function
+	$db:		OBJECT(PDO) - The Database Object
+	$data:		Object  - The Deserialized JSON Data you want to update
+	*/
 	public function updateData($db, $data)
 	{
 		$this->data = json_encode( $this->object_merge_recursive( json_decode($this->data), $data) );

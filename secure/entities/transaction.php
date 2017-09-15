@@ -18,7 +18,13 @@ class Transaction extends VerifiableHelper
 			"CurrencyAmount" => 'getCurrencyAmount'
 		);
 	
-	// Create a new Transaction, with validation checks.
+	/*
+	Create a new Transaction, with validation checks.
+	There are three manditory fields for this constructor
+	$transId:			Integer - The Transaction ID (UNIQUE)
+	$userId:			Integer - The User's ID
+	$currencyAmount:	Number  - The amount of currency for this transaction.
+	*/
 	public function __construct($transId, $userId, $currencyAmount)
 	{
 		// Set the internal values
@@ -27,7 +33,11 @@ class Transaction extends VerifiableHelper
 		$this->setCurrencyAmount($currencyAmount);
 	}
 
-	// Save this Transaction.
+	/*
+	Save this Transaction.
+	There is one manditory field for this function
+	$db:		OBJECT(PDO) - The Database Object
+	*/
 	public function save($db)
 	{
 		// Any Errors such as integrity Constraints being violated will be displayed as errors properly in controller.

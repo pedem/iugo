@@ -13,6 +13,13 @@ class LeaderBoard
 	private $score;
 	private $rank;
 
+
+	/*
+	There are three manditory fields for this constructor
+	$userId:		Integer - The User's ID
+	$leaderboardId:	Integer - The Leaderboard ID
+	$score:			Integer - The User's Score for this leaderboard
+	*/
 	public function __construct($userId, $leaderboardId, $score)
 	{
 		$this->setUserId( $userId );
@@ -20,6 +27,7 @@ class LeaderBoard
 		$this->setScore( $score );
 	}
 
+	// This would go away if this became Verifiable.
 	public function toArray()
 	{
 		// I'm Assuming that order matters to the client.
@@ -31,6 +39,14 @@ class LeaderBoard
 		);
 	}
 
+	/*
+	Loads a UserData Object given a Database object and a UserId
+
+	There are three manditory fields for this function
+	$db:		OBJECT(PDO) - The Database Object
+	$userId:	Integer - The User's ID
+	$leaderboardId:	Integer - The Leaderboard ID
+	*/
 	public static function load($db, $userId, $leaderboardId)
 	{
 		if (is_null($userId) || !is_int($userId))
@@ -60,6 +76,11 @@ class LeaderBoard
 		return $retVal;
 	}
 
+	/*
+	Save this LeaderBoard.
+	There is one manditory field for this function
+	$db:		OBJECT(PDO) - The Database Object
+	*/
 	public function save($db)
 	{
 		/*
@@ -144,7 +165,7 @@ class LeaderBoard
 
 	}
 
-	// Accessors, depite the fact we only need one.
+	// Accessors
 
 	public function getLeaderboardId()
 	{

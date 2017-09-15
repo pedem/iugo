@@ -40,7 +40,6 @@ class TransactionManager
 	}
 	
 	// Records a transaction from POST data.
-	// Essentially #3 entry point for Class
 	public function recordTransactionFromPost($postData)
 	{
 		$trans = $this->processPOSTtoTrans($postData);
@@ -99,7 +98,6 @@ class TransactionManager
 
 
 	// Display Stats for a User identified in the POST data.
-	// Essentially #4 entry point for Class
 	public function getStatsFromPost($postData)
 	{
 		$userId = $postData["UserId"];
