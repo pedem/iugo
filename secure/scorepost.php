@@ -1,9 +1,9 @@
 <?php
-require("leaderboardMgr.php");
+require("managers/leaderboardMgr.php");
 
 $postData = json_decode(file_get_contents('php://input'), true);
 
-$ldr = new LeaderBoardManager;
-$ldr->insertLeaderEntryFromPost($postData);
+$mgr = new LeaderBoardManager;
+$mgr->insertLeaderEntryFromPost($postData);
 
 ?>

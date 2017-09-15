@@ -1,16 +1,15 @@
 <?php
-require("mysql.php");
 
 class UserData
 {
 	public const USERID_MISSING 	= "UserId Missing or not Numeric";
-	public const DATA_MISSING	= "Data Missing";
+	public const DATA_MISSING		= "Data Missing";
 
 	// Internal private variables
 	private $userId;
 	private $data;
 
-	// Create a new Transaction, with validation checks.
+	// Create a new UserData, with validation checks.
 	public function __construct($userId, $data)
 	{
 		if (is_null($userId) || !is_int($userId))
@@ -27,7 +26,7 @@ class UserData
 	}
 
 
-	// Create an Array representation of this Transaction.
+	// Create an Array representation of this UserData.
 	public function toArray()
 	{
 		return array(
@@ -124,67 +123,6 @@ class UserData
 	public function getData()
 	{
 		return $this->data;
-	}
-}
-
-class UserDataManager
-{
-	/*
-		I've made this function to create a Transaction. 
-		It's simple, but if there becomes anything we wish to do upon making a Transaction, the logic will go here.
-	*/
-	public function createTransaction($transId, $userId, $currencyAmount )
-	{
-		$trans = new Transaction($transId, $userId, $currencyAmount);
-		return $trans;
-	}
-
-	// Displays Success to the user
-	public function success()
-	{
-		echo json_encode( array("Success"=> true ) );
-	}
-
-	// Converts POST data to a transaction
-	public function saveFromPost($postData)
-	{
-		if (is_null($postData['Data']))
-		{
-			$this->success();
-			return;
-		}
-		$ds = new Datastore;
-		$db = $ds->getDB();
-
-		$userData = UserData::load($db, $postData['UserId']);
-		if (is_null($userData))
-		{
-			$userData = new UserData($postData['UserId'], json_encode( $postData['Data']) );
-			$userData->save($db);
-		}
-		else
-		{
-			$userData->updateData($db, $postData['Data'] );
-		}
-
-		$this->success();
-	}
-
-	public function loadFromPost($postData)
-	{
-		$ds = new Datastore;
-		$db = $ds->getDB();
-
-		$userData = UserData::load($db, $postData['UserId']);
-
-		if (is_null($userData))
-		{
-			echo "{}";
-		}
-		else
-		{
-			echo $userData->getData();
-		}
 	}
 }
 

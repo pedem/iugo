@@ -1,8 +1,8 @@
 <?php
-require("transactionMgr.php");
+require("managers/transactionMgr.php");
 
 $postData = json_decode(file_get_contents('php://input'), true);
 
-$transMgr = new TransactionManager();
-$transMgr->getStatsFromPost($postData);
+$mgr = new TransactionManager();
+$mgr->getStatsFromPost($postData);
 ?>
