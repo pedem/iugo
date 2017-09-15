@@ -6,6 +6,7 @@ class LeaderBoardManager
 {
 	private const OFFSET_MISSING 	= "Offset Missing or not Numeric";
 	private const LIMIT_MISSING 	= "Limit Missing or not Numeric";
+	private const CANNOT_FIND_ENTRY = "No Entry for UserId in Leaderboard";
 	/*
 		I've made this function to create a LeaderBoard. 
 		It's simple, but if there becomes anything we wish to do upon making a LeaderBoard, the logic will go here.
@@ -47,8 +48,7 @@ class LeaderBoardManager
 		$leaderEntry = LeaderBoard::load($db, $postData['UserId'],$postData['LeaderboardId']);
 		if (is_null($leaderEntry))
 		{
-			echo "{}";
-			return;
+			throw new Exception(self::CANNOT_FIND_ENTRY)
 		}
 
 		$stmt = $db->query("SELECT userId as UserId, score as Score, rank as Rank FROM leaderboard WHERE leaderboardId=".$leaderEntry->getLeaderboardId()." ORDER BY score ASC LIMIT $limit OFFSET $offset");

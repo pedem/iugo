@@ -49,6 +49,8 @@ I assume you want fast reads, and that writes can take a little longer to calcul
 I Assume that when you ask for the complete ranking, that the order of ties is irrelevant.  If there's two or more people with the same rank, you don't care what order they're in.
 Right now, they display in whatever order SQL spits them back at.  If you want it to be more consistent, then specify userId, the Time they recorded the score or something.  All depending, I would need to modify the Database to accommodate (in case of added field like timestamp).
 
+I also assume that if you look for a UserId that's not in the Leaderboard, that I should just throw an error.  I could have continued with the leaderboard query, but I felt that if a User wasn't in the leaderboard, then they shouldn't see the results.
+
 6) User Save
 
 I assume that whatever comes in on as User JSON Data to save can fit inside a LONGTEXT of MySql.
@@ -80,10 +82,10 @@ Here are the verifier JSON strings you will need to test:
 
 I assume that anyone with the Secret key will not try and do anything untoward, and can delete any table they want, even if it's outside the three specified above.  Having the key assumes root level access and responsibility.
 
-If I had more Time:
+If I had more time:
 
 I would revisit the Documentation of the functions in all the files.  I could also document more test cases.
-More testing.  As a rule, that never hurts to do more of.
+More testing.  As a rule, it never hurts.
 
 I Would do that B-Tree implementation for fun.
 
