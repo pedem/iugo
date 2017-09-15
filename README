@@ -1,0 +1,54 @@
+Here's an overview of my assumptions.  Please note: You will find other assumption notes peppered through my code.
+
+I also provided my DB Schema in the secure/iugo_db.sql file.  I say "MySql", but I trust if you're using "MariaDB", you'll allow me to use them interchangeably.
+
+General:
+About errors: if there's a DB Error, then displaying that in the specified error format is preferred.  There didn't seem to be a need to reinterpret or obscure exceptions thrown rightfully by the application.
+
+When you're passing in an INTEGER in JSON, I assume it will NOT be a STRING.
+This is valid:
+{
+	"UserId": 2
+}
+This is NOT:
+{
+	"UserId": "2"
+}
+The second will result in a validation failure.  The specifications reference valid JSON, and your examples show you know better.  If your tests throw in strings where there are numbers, I don't do any implicit type conversion and validation.  If you want that, I assume it would be in the specification and it is not.
+
+1) Timestamp
+
+Seemed pretty straight-forward to me.  I used this as an opportunity to set up my security model in controller, and a manager in the secure folder.
+
+2) Transaction Recording
+
+I assume that if the transaction is not verified, then you want no logging of it at all.
+
+3) Transaction Data Querying
+
+I assume you only want a count of Valid Transactions.  This follows from my assumption in 2)
+
+At this point in my programming, I started using POSTMAN. A Chrome Plugin.  It allows you to POST JSON to a URL.  If you're wondering why I didn't add some testing Javascript, it's because it was completely unnecccessy.  That's what tools are for, am I right?
+
+4) Leaderboard Score Posting
+
+I assume that when you're determining rank, that tie scores have equal rank, but 3rd is still 3rd, even if there's a 2-way tie for 1st.
+
+I assume you want fast reads, and that writes can take a little longer to calculate the rankings for everyone in the leaderboard.  It also makes pagination with rankings trivial if they're precalculated.
+
+5) Leaderboard Get
+
+I Assume that when you ask for the complete ranking, that the order of ties is irrelevant.  If there's two or more people with the same rank, you don't care what order they're in.
+Right now, they display in whatever order SQL spits them back at.  If you want it to be more consistent, then specify userId, the Time they recorded the score or something.  All depending, I would need to modify the Database to accomodate (in case of added field like timestamp).
+
+6) User Save
+
+I assume that whatever comes in on as User JSON Data to save can fit inside a LONGTEXT of MySql.
+When dealing with arrays, I assume you want the new array taken over the old one, not merged.
+
+I also assumed that there would not be any multi-part FORM data.  I would put this under General, but this is the only endpoint it pertains to.  I always assume that:
+file_get_contents('php://input')
+Will get me all the JSON Data I want.
+
+7) User Load
+Straight-forward 

@@ -20,7 +20,7 @@ class ResetManager extends VerifiableHelper
 
 		if (is_null($tableNames))
 		{
-			throw new Exception();
+			throw new Exception(self::INVALID_TABLES);
 		}
 
 		if ($tableNames=="ALL")
