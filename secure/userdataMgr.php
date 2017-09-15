@@ -95,15 +95,15 @@ class UserData
 		}
 
 		foreach ($obj2 as $key => $value) {
-			try
+			if (is_object($obj1))
 			{
 				if (property_exists($obj1,$key) )
 					$obj1->$key = $this->object_merge_recursive($obj1->$key, $value);
 				else
 					$obj1->$key = $obj2->$key;
 			}
-			catch (Exception $e)
-			{   // This is when we're updating Arrays, just use the obj2 array.  Don't merge
+			else
+			{ 
 				return $obj2;
 			}
 		}
