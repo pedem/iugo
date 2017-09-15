@@ -3,9 +3,9 @@ require("verifiable.php");
 
 class Transaction extends VerifiableHelper
 {
-	public const TRANSID_MISSING 	= "TransactionId Missing or not Numeric";
-	public const USERID_MISSING 	= "UserId Missing or not Numeric";
-	public const CURRENCY_MISSING	= "CurrencyAmount Missing or not Numeric";
+	public const TRANSID_MISSING 	= "TransactionId Missing or not Numeric(Integer)";
+	public const USERID_MISSING 	= "UserId Missing or not Numeric(Integer)";
+	public const CURRENCY_MISSING	= "CurrencyAmount Missing or not Numeric(Double)";
 
 	// Internal private variables
 	private $transId;
@@ -29,7 +29,7 @@ class Transaction extends VerifiableHelper
 		{
 			throw new Exception(self::USERID_MISSING);
 		}
-		if (is_null($currencyAmount) || !is_int($currencyAmount))
+		if (is_null($currencyAmount) || !is_double($currencyAmount))
 		{
 			throw new Exception(self::CURRENCY_MISSING);
 		}

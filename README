@@ -50,5 +50,17 @@ I also assumed that there would not be any multi-part FORM data.  I would put th
 file_get_contents('php://input')
 Will get me all the JSON Data I want.
 
+I assume you wanted it stored as JSON, for easy retrieval, but if you wanted a B-Tree implementation, I would be happy to do that as well.
+A B-Tree would allow for searchable user data.
+
 7) User Load
 Straight-forward 
+
+If I had more Time:
+
+I would revisit the Documentation of the functions in all the files.  I could also document more test cases.
+More testing.  As a rule, that never hurts to do more of.
+
+I Would do that B-Tree implementation for fun.
+
+Making things Verifiable as a manditory part of the managers.  Everything should need some form of verification!
