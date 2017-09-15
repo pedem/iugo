@@ -89,16 +89,23 @@ class UserData
 	private function object_merge_recursive($obj1, $obj2)
 	{
 		// I tried array_merge_recursive, but it would make arrays when it was supposed to overwrite values.
-		if ( (!is_object($obj1) && !is_array($obj1)) or !is_object($obj2) or is_array($obj2))
+		if ( (!is_object($obj1) && !is_array($obj1)) )
 		{
 			return $obj2;
 		}
 
 		foreach ($obj2 as $key => $value) {
-			if (property_exists($obj1,$key) )
-				$obj1->$key = $this->object_merge_recursive($obj1->$key, $value);
-			else
-				$obj1->$key = $obj2->$key;
+			try
+			{
+				if (property_exists($obj1,$key) )
+					$obj1->$key = $this->object_merge_recursive($obj1->$key, $value);
+				else
+					$obj1->$key = $obj2->$key;
+			}
+			catch (Exception $e)
+			{   // This is when we're updating Arrays, just use the obj2 array.  Don't merge
+				return $obj2;
+			}
 		}
 
 		return $obj1;
@@ -167,7 +174,7 @@ class UserDataManager
 	{
 		$ds = new Datastore;
 		$db = $ds->getDB();
-		
+
 		$userData = UserData::load($db, $postData['UserId']);
 
 		if (is_null($userData))
