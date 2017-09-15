@@ -1,6 +1,6 @@
 <?php
-require("../db/mysql.php");
-require("../entities/userdata.php");
+require("db/mysql.php");
+require("entities/userdata.php");
 
 class UserDataManager
 {
