@@ -163,7 +163,7 @@ class UserDataManager
 		$this->success();
 	}
 
-	public function loadFromPost()
+	public function loadFromPost($postData)
 	{
 		$ds = new Datastore;
 		$db = $ds->getDB();
