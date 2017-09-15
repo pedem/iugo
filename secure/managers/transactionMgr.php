@@ -52,11 +52,11 @@ class TransactionManager
 			throw new Exception(self::VERIFIER_MISSING);
 		}
 
-		$ds = new Datastore;
-		$db = $ds->getDB();
-
 		$this->verifyTransaction($trans, $verifier);
 
+		$ds = new Datastore;
+		$db = $ds->getDB();
+		
 		$trans->save($db);
 
 		$this->success();

@@ -1,7 +1,7 @@
 <?php
 require("verifiable.php");
 
-class Transaction extends Verifiable
+class Transaction extends VerifiableHelper
 {
 	public const TRANSID_MISSING 	= "TransactionId Missing or not Numeric";
 	public const USERID_MISSING 	= "UserId Missing or not Numeric";

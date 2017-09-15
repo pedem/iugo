@@ -1,5 +1,10 @@
 <?php
-class Verifiable
+
+/*
+	This class is a helper class that contains functions that are helpful to things that need to be verifiable.
+	I added toArray, because everything should have an array representation.  If you need to override this to get something less generic, that is always an option.
+*/
+class VerifiableHelper
 {
 	// Protect the secret constant from prying eyes.
 	private const SECRET_KEY 		= "NwvprhfBkGuPJnjJp77UPJWJUpgC7mLz";
