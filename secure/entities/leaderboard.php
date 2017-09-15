@@ -166,17 +166,40 @@ class LeaderBoard
 	{
 		return $this->leaderboardId;
 	}
+	
 	public function getUserId()
 	{
 		return $this->userId;
 	}
+
 	public function getScore()
 	{
 		return $this->score;
 	}
+
 	public function getRank()
 	{
 		return $this->rank;
+	}
+
+	public function setLeaderboardId($leaderboardId)
+	{
+		$this->leaderboardId = $leaderboardId;
+	}
+
+	public function setUserId($userId)
+	{
+		$this->userId = $userId;
+	}
+
+	public function setScore($score)
+	{
+		$this->score = $score;
+	}
+
+	public function setRank($rank)
+	{
+		$this->rank = $rank;
 	}
 }
 ?>

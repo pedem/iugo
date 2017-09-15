@@ -124,6 +124,22 @@ class UserData
 	{
 		return $this->data;
 	}
+
+	public function getUserId()
+	{
+		return $this->userId;
+	}
+
+	public function setData($data)
+	{
+		$this->data = $data;
+	}
+
+	public function setUserId($userId)
+	{
+		$this->userId = $userId;
+	}
+
 }
 
 ?>

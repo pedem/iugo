@@ -58,6 +58,38 @@ class Transaction
 		$db->query("INSERT into transaction (transId,userId,currencyAmount) VALUES ($this->transId,$this->userId,$this->currencyAmount)");
 	}
 
+
+	// Accessors
+	public function getTransId()
+	{
+		return $this->transId;
+	}
+
+	public function getUserId()
+	{
+		return $this->userId;
+	}
+
+	public function getCurrencyAmount()
+	{
+		return $this->currencyAmount;
+	}
+
+	public function setTransId($transId)
+	{
+		$this->transId = $transId;
+	}
+
+	public function setUserId($userId)
+	{
+		$this->userId = $userId;
+	}
+
+	public function setCurrencyAmount($currencyAmount)
+	{
+		$this->currencyAmount = $currencyAmount;
+	}
+
 }
 
 ?>
