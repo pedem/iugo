@@ -96,9 +96,9 @@ class UserData
 
 		foreach ($obj2 as $key => $value) {
 			if (property_exists($obj1,$key) )
-				$obj1[$key] = $this->object_merge_recursive($obj1->$key, $value);
+				$obj1->$key = $this->object_merge_recursive($obj1->$key, $value);
 			else
-				$obj1[$key] = $obj2[$key];
+				$obj1->$key = $obj2->$key;
 		}
 
 		return $obj1;
