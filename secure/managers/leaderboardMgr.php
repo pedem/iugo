@@ -48,7 +48,7 @@ class LeaderBoardManager
 		$leaderEntry = LeaderBoard::load($db, $postData['UserId'],$postData['LeaderboardId']);
 		if (is_null($leaderEntry))
 		{
-			throw new Exception(self::CANNOT_FIND_ENTRY)
+			throw new Exception(self::CANNOT_FIND_ENTRY);
 		}
 
 		$stmt = $db->query("SELECT userId as UserId, score as Score, rank as Rank FROM leaderboard WHERE leaderboardId=".$leaderEntry->getLeaderboardId()." ORDER BY score ASC LIMIT $limit OFFSET $offset");
