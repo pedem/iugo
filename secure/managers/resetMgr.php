@@ -37,7 +37,7 @@ class ResetManager extends VerifiableHelper
 			throw new Exception(self::VERIFIER_MISSING);
 		}
 
-		if ($this->toVerifierStr()!=$verifyStr)
+		if ($this->toVerifierStr()!=$verifier)
 		{
 			throw new Exception(self::VERIFY_ERROR);
 		}
