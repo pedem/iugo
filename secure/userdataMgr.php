@@ -116,7 +116,7 @@ class UserData
 	// Accessors
 	public function getData()
 	{
-		retrun $this->data;
+		return $this->data;
 	}
 }
 
