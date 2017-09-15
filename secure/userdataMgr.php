@@ -165,6 +165,9 @@ class UserDataManager
 
 	public function loadFromPost()
 	{
+		$ds = new Datastore;
+		$db = $ds->getDB();
+		
 		$userData = UserData::load($db, $postData['UserId']);
 
 		if (is_null($userData))
