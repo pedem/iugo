@@ -5,7 +5,9 @@ class LeaderBoard
 	private const LEADER_MISSING 	= "LeaderboardId Missing or not Numeric";
 	private const USERID_MISSING 	= "UserId Missing or not Numeric";
 	private const SCORE_MISSING		= "Score Missing or not Numeric";
+	private const RANK_MISSING		= "Rank Missing or not Numeric";
 
+	// Internal private variables
 	private $userId;
 	private $leaderboardId;
 	private $score;
@@ -13,37 +15,19 @@ class LeaderBoard
 
 	public function __construct($userId, $leaderboardId, $score)
 	{
-
-
-		if (is_null($userId) || !is_int($userId))
-		{
-			throw new Exception(self::USERID_MISSING);
-		}
-
-		if (is_null($leaderboardId) || !is_int($leaderboardId))
-		{
-			throw new Exception(self::LEADER_MISSING);
-		}
-
-		if (is_null($score) || !is_int($score))
-		{
-			throw new Exception(self::SCORE_MISSING);
-		}
-
-
-		$this->userId = $userId;
-		$this->leaderboardId = $leaderboardId;
-		$this->score = $score;
+		$this->setUserId( $userId );
+		$this->setLeaderboardId( $leaderboardId );
+		$this->setScore( $score );
 	}
 
 	public function toArray()
 	{
 		// I'm Assuming that order matters to the client.
 		return array(
-			'UserId' => $this->userId,
-			'LeaderboardId' => $this->leaderboardId,
-			'Score' => $this->score,
-			'Rank' => $this->rank
+			'UserId' => $this->getUserId(),
+			'LeaderboardId' => $this->getLeaderboardId(),
+			'Score' => $this->getScore(),
+			'Rank' => $this->getRank()
 		);
 	}
 
@@ -100,7 +84,7 @@ class LeaderBoard
 			$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score<$this->score");
 			$myRankResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			$this->rank = ((int)$myRankResults[0]['cnt']) + 1;  // Only one row.
+			$this->setRank( ((int)$myRankResults[0]['cnt']) + 1 );  // Only one row.
 
 			// We are adding ourselves.
 
@@ -129,8 +113,8 @@ class LeaderBoard
 			// CASE 2
 			if ($currentScore<=$this->score)
 			{
-				$this->score = $currentScore;
-				$this->rank = $currentRank;
+				$this->setScore( $currentScore );
+				$this->setRank( $currentRank );
 			}
 			else
 			{
@@ -138,7 +122,7 @@ class LeaderBoard
 				$stmt = $db->query("SELECT COUNT(*) as cnt FROM leaderboard WHERE leaderboardId=$this->leaderboardId and score<$this->score");
 				$myRankResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-				$this->rank = ((int)$myRankResults[0]['cnt']) + 1;  // Only one row.
+				$this->setRank( ((int)$myRankResults[0]['cnt']) + 1 );  // Only one row.
 
 				$db->beginTransaction();
 				try
@@ -184,21 +168,41 @@ class LeaderBoard
 
 	public function setLeaderboardId($leaderboardId)
 	{
+		if (is_null($leaderboardId) || !is_int($leaderboardId))
+		{
+			throw new Exception(self::LEADER_MISSING);
+		}
+
 		$this->leaderboardId = $leaderboardId;
 	}
 
 	public function setUserId($userId)
 	{
+		if (is_null($userId) || !is_int($userId))
+		{
+			throw new Exception(self::USERID_MISSING);
+		}
+
 		$this->userId = $userId;
 	}
 
 	public function setScore($score)
 	{
+		if (is_null($score) || !is_int($score))
+		{
+			throw new Exception(self::SCORE_MISSING);
+		}
+
 		$this->score = $score;
 	}
 
 	public function setRank($rank)
 	{
+		if (is_null($rank) || !is_int($rank))
+		{
+			throw new Exception(self::RANK_MISSING);
+		}
+
 		$this->rank = $rank;
 	}
 }

@@ -12,17 +12,9 @@ class UserData
 	// Create a new UserData, with validation checks.
 	public function __construct($userId, $data)
 	{
-		if (is_null($userId) || !is_int($userId))
-		{
-			throw new Exception(self::USERID_MISSING);
-		}
-		if (is_null($data))
-		{
-			throw new Exception(self::DATA_MISSING);
-		}
 		// Set the internal values
-		$this->userId = $userId;
-		$this->data = $data;
+		$this->setUserId( $userId );
+		$this->setData( $data );
 	}
 
 
@@ -132,11 +124,19 @@ class UserData
 
 	public function setData($data)
 	{
+		if (is_null($data))
+		{
+			throw new Exception(self::DATA_MISSING);
+		}
 		$this->data = $data;
 	}
 
 	public function setUserId($userId)
 	{
+		if (is_null($userId) || !is_int($userId))
+		{
+			throw new Exception(self::USERID_MISSING);
+		}
 		$this->userId = $userId;
 	}
 

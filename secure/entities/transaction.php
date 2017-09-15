@@ -21,22 +21,10 @@ class Transaction extends VerifiableHelper
 	// Create a new Transaction, with validation checks.
 	public function __construct($transId, $userId, $currencyAmount)
 	{
-		if (is_null($transId) || !is_int($transId))
-		{
-			throw new Exception(self::TRANSID_MISSING);
-		}
-		if (is_null($userId) || !is_int($userId))
-		{
-			throw new Exception(self::USERID_MISSING);
-		}
-		if (is_null($currencyAmount) || !is_double($currencyAmount))
-		{
-			throw new Exception(self::CURRENCY_MISSING);
-		}
 		// Set the internal values
-		$this->transId = $transId;
-		$this->userId = $userId;
-		$this->currencyAmount = $currencyAmount;
+		$this->setTransId($transId);
+		$this->setUserId($userId);
+		$this->setCurrencyAmount($currencyAmount);
 	}
 
 	// Save this Transaction.
@@ -65,16 +53,28 @@ class Transaction extends VerifiableHelper
 
 	public function setTransId($transId)
 	{
+		if (is_null($transId) || !is_int($transId))
+		{
+			throw new Exception(self::TRANSID_MISSING);
+		}
 		$this->transId = $transId;
 	}
 
 	public function setUserId($userId)
 	{
+		if (is_null($userId) || !is_int($userId))
+		{
+			throw new Exception(self::USERID_MISSING);
+		}
 		$this->userId = $userId;
 	}
 
 	public function setCurrencyAmount($currencyAmount)
 	{
+		if (is_null($currencyAmount) || !is_double($currencyAmount))
+		{
+			throw new Exception(self::CURRENCY_MISSING);
+		}
 		$this->currencyAmount = $currencyAmount;
 	}
 
