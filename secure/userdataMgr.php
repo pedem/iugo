@@ -89,7 +89,7 @@ class UserData
 	private function object_merge_recursive($obj1, $obj2)
 	{
 		// I tried array_merge_recursive, but it would make arrays when it was supposed to overwrite values.
-		if (!is_object($obj1) && !is_array($obj1) )
+		if ( (!is_object($obj1) && !is_array($obj1)) or !is_object($obj2) or is_array($obj2))
 		{
 			return $obj2;
 		}
