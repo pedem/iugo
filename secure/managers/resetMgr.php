@@ -49,6 +49,8 @@ class ResetManager extends VerifiableHelper
 		{
 			$db->query("TRUNCATE `$val`");
 		}
+
+		echo json_encode( array("Success"=> true ) );
 	}
 
 	public function getTableNamesAsStr()

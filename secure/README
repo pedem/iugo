@@ -4,3 +4,16 @@ In this case, I use the .htaccess file to just deny access to everything in it.
 You may only access these files through the controller.php, and then only the ones that are allowed access points.
 
 Really, these should not be in any publically accessible folder.  The PHP includes should go to some path outside of Apache's reach with strict permissions set.
+
+
+I made the Database Reset endpoint at:
+http://{{hostname}}/DBTableReset
+
+I made it take a Verifier that uses the Secret Key you already provided.
+The Verifier is a SHA1 of the Secret Key, Table Name 1, Table Name 2, ...
+
+Here are the verifier JSON strings you will need to test:
+{"TableNames":"ALL","Verifier":"a886c01529cb2d8497600269cc233857d14d4434"}
+{"TableNames":["leaderboard"],"Verifier":"2935c2b6226b9942f92bc2845c5a1c5b9a17a54a"}
+{"TableNames":["transaction"],"Verifier":"98f90a89618b4376aeabe13afc84a3913a9417a7"}
+{"TableNames":["userdata"],"Verifier":"7d45c1a9f9c3c2fe85e02a0ad4ea9d172a456896"}
