@@ -1,10 +1,8 @@
 <?php
+require("verifiable.php");
 
-class Transaction
+class Transaction extends Verifiable
 {
-	// Protect the secret constant from prying eyes.
-	private const SECRET_KEY 		= "NwvprhfBkGuPJnjJp77UPJWJUpgC7mLz";
-
 	public const TRANSID_MISSING 	= "TransactionId Missing or not Numeric";
 	public const USERID_MISSING 	= "UserId Missing or not Numeric";
 	public const CURRENCY_MISSING	= "CurrencyAmount Missing or not Numeric";
@@ -14,6 +12,12 @@ class Transaction
 	private $userId;
 	private $currencyAmount;
 
+	protected static $verify_array=array(
+			"TransactionId" => 'getTransId',
+			"UserId" => 'getUserId',
+			"CurrencyAmount" => 'getCurrencyAmount'
+		);
+	
 	// Create a new Transaction, with validation checks.
 	public function __construct($transId, $userId, $currencyAmount)
 	{
