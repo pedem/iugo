@@ -4,6 +4,7 @@ header('Content-type: text/javascript');
 
 // The allowed paths to modules in the secure folder
 $allowed = array(
+	"dbtablereset" => true,
 	"userload" => true,
 	"usersave" => true,
 	"scorepost" => true,
