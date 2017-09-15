@@ -81,7 +81,7 @@ class Transaction extends VerifiableHelper
 
 	public function setCurrencyAmount($currencyAmount)
 	{
-		if (is_null($currencyAmount) || !is_double($currencyAmount))
+		if (is_null($currencyAmount) || (!is_double($currencyAmount) && !is_int($userId)) )
 		{
 			throw new Exception(self::CURRENCY_MISSING);
 		}

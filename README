@@ -30,11 +30,11 @@ Seemed pretty straight-forward to me.  I used this as an opportunity to set up m
 I assume that if the transaction is not verified, then you want no logging of it at all.
 I also assume that just because you specify INTEGER, that FLOAT is also valid.  When dealing with currency, decimals are the norm.  I allow any float value, but precision of 2 could easily be enforced.
 If your currency is all pennies, then I'll give you that integers are sufficient.
-If all you test is with Integers, then your tests will be successful, but Floating point numbers will not break things and don't need to be encoded as strings.  In fact DO NOT encode Floats as Strings.
+If all you test is with Integers, then your tests will be successful, but Floating point numbers will not break things and don't need to be encoded as strings.  In fact, DO NOT encode Floats as Strings.
 
 3) Transaction Data Querying
 
-I assume you only want a count of Valid Transactions.  This follows from my assumption in 2)
+I assume you only want a count of Valid Transactions.  This follows from my assumption in 2).
 
 At this point in my programming, I started using POSTMAN. A Chrome Plugin.  It allows you to POST JSON to a URL.  If you're wondering why I didn't add some testing Javascript, it's because it was completely unnecessary.  That's what tools are for, am I right?
 
