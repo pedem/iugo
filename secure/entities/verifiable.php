@@ -33,7 +33,7 @@ class Verifiable
 		$retArr = array();
 		foreach ($static::verify_array as $key => $val)
 		{
-			$retArr[$key] = call_user_func( array($this,$val) ;
+			$retArr[$key] = call_user_func( array($this,$val) );
 		}
 		return $retArr;
 	}
