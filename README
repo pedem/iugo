@@ -1,5 +1,10 @@
 Here's an overview of my assumptions.  Please note: You will find other assumption notes peppered through my code.
 
+All my endpoints are available at:
+http://mpede.webfactional.com/{{ENDPOINT}}
+
+I assume PHP 7.1 is fine.
+
 I also provided my DB Schema in the secure/iugo_db.sql file.  I say "MySql", but I trust if you're using "MariaDB", you'll allow me to use them interchangeably.
 
 General:
@@ -23,6 +28,8 @@ Seemed pretty straight-forward to me.  I used this as an opportunity to set up m
 2) Transaction Recording
 
 I assume that if the transaction is not verified, then you want no logging of it at all.
+I also assume that just because you specify INTEGER, that FLOAT is also Valid.  When dealing with Currency, decimals are the norm.  I allow any float value, but precision of 2 could easily be enforced.
+If all you test is with Integers, then your tests will be successful, but Floating point numbers will not break things and don't need to be encoded as strings.  In fact DO NOT encode Floats as Strings.
 
 3) Transaction Data Querying
 
@@ -54,7 +61,23 @@ I assume you wanted it stored as JSON, for easy retrieval, but if you wanted a B
 A B-Tree would allow for searchable user data.
 
 7) User Load
-Straight-forward 
+I assume that if you've saved any String data that has slashes in it, that you're fine with them being removed.
+I put in rudimentary SQL injection prevention, so slashes are a no-no.
+
+BONUS)
+I made the Database Reset endpoint at:
+http://{{hostname}}/DBTableReset
+
+I made it take a Verifier that uses the Secret Key you already provided.
+The Verifier is a SHA1 of the Secret Key, Table Name 1, Table Name 2, ...
+
+Here are the verifier JSON strings you will need to test:
+{"TableNames":"ALL","Verifier":"a886c01529cb2d8497600269cc233857d14d4434"}
+{"TableNames":["leaderboard"],"Verifier":"2935c2b6226b9942f92bc2845c5a1c5b9a17a54a"}
+{"TableNames":["transaction"],"Verifier":"98f90a89618b4376aeabe13afc84a3913a9417a7"}
+{"TableNames":["userdata"],"Verifier":"7d45c1a9f9c3c2fe85e02a0ad4ea9d172a456896"}
+
+I assume that anyone with the Secret key will not try and do anything untoward, and can delete any table they want, even if it's outside the three specified above.  Having the key assumes root level access and responsibility.
 
 If I had more Time:
 
@@ -64,3 +87,4 @@ More testing.  As a rule, that never hurts to do more of.
 I Would do that B-Tree implementation for fun.
 
 Making things Verifiable as a manditory part of the managers.  Everything should need some form of verification!
+This is last because it definately defies the specification.  I'd LIKE to do it, but any implementation would cause all your tests to fail outside of adding Transactions.
