@@ -1,6 +1,6 @@
 <?php
-require("db/mysql.php");
-require("entities/transaction.php");
+require("secure/db/mysql.php");
+require("secure/entities/transaction.php");
 
 class TransactionManager
 {
