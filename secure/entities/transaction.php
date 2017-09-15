@@ -12,7 +12,7 @@ class Transaction extends Verifiable
 	private $userId;
 	private $currencyAmount;
 
-	protected static $verify_array=array(
+	protected const VERIFY_ARRAY=array(
 			"TransactionId" => 'getTransId',
 			"UserId" => 'getUserId',
 			"CurrencyAmount" => 'getCurrencyAmount'
@@ -37,22 +37,6 @@ class Transaction extends Verifiable
 		$this->transId = $transId;
 		$this->userId = $userId;
 		$this->currencyAmount = $currencyAmount;
-	}
-
-	// Create a SHA1 Hashed string that represents this transaction.
-	public function toVerifierStr()
-	{
-		return sha1(self::SECRET_KEY . $this->transId . $this->userId .$this->currencyAmount);
-	}
-
-	// Create an Array representation of this Transaction.
-	public function toArray()
-	{
-		return array(
-			"TransactionId" => $this->transId,
-			"UserId" => $this->userId,
-			"CurrencyAmount" => $this->currencyAmount
-		);
 	}
 
 	// Save this Transaction.

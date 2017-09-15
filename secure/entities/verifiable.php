@@ -4,7 +4,7 @@ class Verifiable
 	// Protect the secret constant from prying eyes.
 	private const SECRET_KEY 		= "NwvprhfBkGuPJnjJp77UPJWJUpgC7mLz";
 
-	protected static $verify_array=array();
+	protected const VERIFY_ARRAY=array();
 	/*
 		A Verifier array should look like this:
 		array(
@@ -20,9 +20,9 @@ class Verifiable
 	public function toVerifierStr()
 	{
 		$toEncode = self::SECRET_KEY;
-		foreach ($static::verify_array as $key => $val)
+		foreach (static::VERIFY_ARRAY as $key => $val)
 		{
-			$toEncode = $toEncode . call_user_func($this,$val);
+			$toEncode = $toEncode . call_user_func( array($this,$val) );
 		}
 		return sha1( $toEncode );
 	}
@@ -33,7 +33,7 @@ class Verifiable
 		$retArr = array();
 		foreach ($static::verify_array as $key => $val)
 		{
-			$retArr[$key] = call_user_func($this,$val);
+			$retArr[$key] = call_user_func( array($this,$val) ;
 		}
 		return $retArr;
 	}
