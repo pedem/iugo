@@ -112,11 +112,16 @@ class UserData
 		$this->update($db);
 	}
 
+
+	// Accessors
+	public function getData()
+	{
+		retrun $this->data;
+	}
 }
 
 class UserDataManager
 {
-
 	/*
 		I've made this function to create a Transaction. 
 		It's simple, but if there becomes anything we wish to do upon making a Transaction, the logic will go here.
@@ -158,6 +163,19 @@ class UserDataManager
 		$this->success();
 	}
 
+	public function loadFromPost()
+	{
+		$userData = UserData::load($db, $postData['UserId']);
+
+		if (is_null($userData))
+		{
+			echo "{}";
+		}
+		else
+		{
+			echo $userData->getData();
+		}
+	}
 }
 
 ?>
