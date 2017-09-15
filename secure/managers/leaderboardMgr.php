@@ -1,6 +1,6 @@
 <?php
 require("secure/db/mysql.php");
-require("secure/entities/leaderboard.php")
+require("secure/entities/leaderboard.php");
 
 class LeaderBoardManager
 {
